@@ -1,22 +1,17 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE}")";
+dir=~/dotfiles
+files=".bashrc .emacs.d .bash_it .spacemacs"
 
-git pull origin master;
-git submodule update --init;
+git submodule update --init --depth 1
 
-function doIt() {
-	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
-		--exclude "README.md" --exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
-}
+# change to the dotfiles directory
+echo -n "Changing to the $dir directory ..."
+cd $dir
+echo "done"
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	doIt;
-else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-	echo "";
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		doIt;
-	fi;
-fi;
-unset doIt;
+# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
+for file in $files; do
+    echo "Creating symlink to $file in home directory."
+    ln -s $dir/$file ~/$file
+done
