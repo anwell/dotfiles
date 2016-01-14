@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Path to the bash it configuration
-export BASH_IT="/home/anwell/.bash_it"
+export BASH_IT="/homes/iws/anwell/.bash_it"
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
@@ -28,8 +28,5 @@ export SCM_CHECK=true
 
 # Load Bash It
 source $BASH_IT/bash_it.sh
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 
 export EDITOR='emacsclient -t'
