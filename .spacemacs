@@ -28,17 +28,19 @@ values."
      c-c++
      emacs-lisp
      ess
-     ;; git
+     git
+     haskell
      javascript
      markdown
      org
+     python
      react
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; spell-checking
+     spell-checking
      syntax-checking
-     ;; version-control
+     version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -46,7 +48,7 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages '(csharp-mode)
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(org-bullets)
+   dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -82,19 +84,19 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark
+                         monokai
                          solarized-light
                          solarized-dark
                          leuven
-                         monokai
                          zenburn)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("Ubuntu Monospace"
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -202,14 +204,17 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (require 'ob-csharp)
   ;; active Babel languages
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((csharp . t)
-     (java . t)
+   '((java . t)
      (js . t)
      ))
+)
+
+(add-hook 'c++-mode-hook
+  (lambda ()
+    (setq flycheck-clang-language-standard "c++11"))
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
