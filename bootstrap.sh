@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 dir=~/dotfiles
-files=".bashrc .emacs.d .bash_it .spacemacs"
+files=".bashrc .emacs.d .bash_it .spacemacs .vimrc .tmux.conf"
 
 git submodule update --init --depth 1
 
