@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-dir=~/dotfiles
-files=".bashrc .emacs.d .bash_it .spacemacs .vimrc .tmux.conf"
-
+echo "Updating submodules"
 git submodule update --init --depth 1
 
-# change to the dotfiles directory
-echo -n "Changing to the $dir directory ..."
-cd $dir
-echo "done"
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "cd $dir"
+cd "$dir"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
+files="$(git ls-tree --name-only HEAD | grep -vxE "README.md|LICENSE-MIT.txt|bootstrap.sh|.gitmodules|.gitignore")"
 for file in $files; do
-    echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/$file
+  if [ -e ~/"$file" ]; then
+    echo "Removing ~/$file"
+    rm ~/"$file"
+  fi
+  ln -s "$dir/$file" ~/"$file"
+  echo "Created symlink $dir/$file"
 done
