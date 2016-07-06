@@ -23,12 +23,15 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-snippets-in-popup t)
      better-defaults
      c-c++
      emacs-lisp
      ess
      git
+     go
      haskell
      javascript
      markdown
@@ -76,16 +79,17 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner nil
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
    dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-recent-list-size 10
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-light
-                         spacemacs-dark
+   dotspacemacs-themes '(spacemacs-dark
+                         spacemacs-light
                          monokai
                          solarized-light
                          solarized-dark
@@ -95,7 +99,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Ubuntu Monospace"
+   dotspacemacs-default-font '("Consolas"
                                :size 14
                                :weight normal
                                :width normal
@@ -204,17 +208,23 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  ;; turn off current line highlight
+  (global-hl-line-mode -1)
+  (global-whitespace-mode 1)
+  (setq whitespace-style (quote (tab-mark)))
   ;; active Babel languages
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((java . t)
      (js . t)
      ))
-)
-
-(add-hook 'c++-mode-hook
-  (lambda ()
-    (setq flycheck-clang-language-standard "c++11"))
+  (add-hook 'c++-mode-hook
+            (lambda ()
+              (setq flycheck-clang-language-standard "c++11"))
+            )
+  (add-hook 'org-mode-hook
+            (lambda () (visual-line-mode t)))
+  (setq c-default-style "linux")
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
